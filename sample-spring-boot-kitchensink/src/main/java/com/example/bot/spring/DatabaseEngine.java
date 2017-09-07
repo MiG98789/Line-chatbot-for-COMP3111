@@ -28,7 +28,6 @@ public class DatabaseEngine {
 		String result = null;
 		BufferedReader br = null;
 		InputStreamReader isr = null;
-        int resultCount = 0;
         try {
 			isr = new InputStreamReader(
                     this.getClass().getResourceAsStream(FILENAME));
@@ -37,9 +36,9 @@ public class DatabaseEngine {
 
 			while ((sCurrentLine = br.readLine()) != null) {
 				String[] parts = sCurrentLine.split(":");
-				if (parts[0].toLowerCase().contains(text.toLowerCase())) {
+				if (text.toLowerCase().contains(parts[0].toLowerCase())) {
                     result = parts[1];
-                    resultCount++;
+                    return result;
 				}
 			}
 		} catch (IOException e) {
@@ -54,12 +53,6 @@ public class DatabaseEngine {
 				log.info("IOException while closing file: {}", ex.toString());
 			}
 		}
-		if (result != null) {
-            if (resultCount > 1) {
-                result = "Result overload!";
-            }
-            return result;
-        }
 		throw new Exception("NOT FOUND");
     }
 	

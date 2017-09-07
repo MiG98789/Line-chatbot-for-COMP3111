@@ -75,18 +75,18 @@ import com.example.bot.spring.DatabaseEngine;
             assertThat(result.equals("def"));
         }
 
-        // Remove below test case for first commit
         @Test
-        public void testPartialMultipleFound() throws Exception {
+        public void testPartialFound() throws Exception {
             boolean thrown = false;
             String result = null;
             try {
-                result = this.databaseEngine.search("is");
+                result = this.databaseEngine.search("What comes after abc?");
             } catch (Exception e) {
                 thrown = true;
             }
-            assertThat(!thrown);
-            assertThat(result.equals("Result overload!"));
+            boolean test = result.equals("def");
+            assertThat(!thrown); 
+            assertThat(test);
         }
 
     }
