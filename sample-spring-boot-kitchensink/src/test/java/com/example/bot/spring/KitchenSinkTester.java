@@ -46,7 +46,8 @@ import com.example.bot.spring.DatabaseEngine;
 
 
     @RunWith(SpringRunner.class)
-    @SpringBootTest(classes = { KitchenSinkTester.class, DatabaseEngine.class })
+    //@SpringBootTest(classes = { KitchenSinkTester.class, DatabaseEngine.class })
+    @SpringBootTest(classes = { KitchenSinkTester.class, SQLDatabaseEngine.class })
     public class KitchenSinkTester {
         @Autowired
         private DatabaseEngine databaseEngine;
@@ -84,9 +85,8 @@ import com.example.bot.spring.DatabaseEngine;
             } catch (Exception e) {
                 thrown = true;
             }
-            boolean test = result.equals("def");
             assertThat(!thrown); 
-            assertThat(test);
+            assertThat(result.contains("def"));
         }
 
     }
