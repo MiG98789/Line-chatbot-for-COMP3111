@@ -76,6 +76,17 @@ import com.example.bot.spring.DatabaseEngine;
         }
 
         @Test
+        public void testPartialNotFound() throws Exception {
+            boolean thrown = false;
+            try {
+                this.databaseEngine.search("Who is Prof Sung");
+            } catch (Exception e) {
+                thrown = true;
+            }
+            assertThat(thrown);
+        }
+
+        @Test
         public void testPartialFound() throws Exception {
             boolean thrown = false;
             String result = null;
@@ -88,5 +99,4 @@ import com.example.bot.spring.DatabaseEngine;
             assertThat(!thrown); 
             assertThat(test);
         }
-
     }
