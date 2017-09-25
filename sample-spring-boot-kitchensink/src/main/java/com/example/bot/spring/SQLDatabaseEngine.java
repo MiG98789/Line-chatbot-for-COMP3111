@@ -23,36 +23,39 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             ResultSet rs = stmt.executeQuery();
             rs.next();
             String keyword = rs.getString(1);
-            result = rs.getString(2) + " (" + (rs.getInt(3) + 1) + " hits)";
 
             // Update hit count
             if (text.toLowerCase().contains(keyword.toLowerCase())) {
+                result = rs.getString(2) + " (" + (rs.getInt(3) + 1) + " hits)";
                 rs.close();
                 stmt.close();
 
                 stmt = connection.prepareStatement("UPDATE harry SET hit_total = hit_total + 1 WHERE keyword = ?");
                 stmt.setString(1, keyword);
-                
+
                 rs = stmt.executeQuery();
 
                 // Will only update hit_total if a file is changed
                 if (rs.getString(1) != "UPDATE 1") {
                     throw new Exception("NOT UPDATED");
                 }
+            }
 
             rs.close();
             stmt.close();
             connection.close();
 
-            return result;
-            } else {
-                rs.close();
-                stmt.close();
-                connection.close();
+            if (result == null) {
                 throw new Exception("INPUT NOT FOUND");
             }
+
+            return result;
         } catch (Exception e) {
             log.info("Exception occured: {}", e.toString());
+        }
+
+        if (result == null) {
+            throw new Exception("INPUT NOT FOUND");
         }
         return result;
     }

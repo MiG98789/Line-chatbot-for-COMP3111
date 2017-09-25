@@ -45,9 +45,9 @@ import lombok.extern.slf4j.Slf4j;
 import com.example.bot.spring.DatabaseEngine;
 
 
-    @RunWith(SpringRunner.class)
-    //@SpringBootTest(classes = { KitchenSinkTester.class, DatabaseEngine.class })
-    @SpringBootTest(classes = { KitchenSinkTester.class, SQLDatabaseEngine.class })
+@RunWith(SpringRunner.class)
+//@SpringBootTest(classes = { KitchenSinkTester.class, DatabaseEngine.class })
+@SpringBootTest(classes = { KitchenSinkTester.class, SQLDatabaseEngine.class })
     public class KitchenSinkTester {
         @Autowired
         private DatabaseEngine databaseEngine;
@@ -55,12 +55,14 @@ import com.example.bot.spring.DatabaseEngine;
         @Test
         public void testNotFound() throws Exception {
             boolean thrown = false;
+            String result = null;
             try {
-                this.databaseEngine.search("no");
+                result = this.databaseEngine.search("no");
             } catch (Exception e) {
                 thrown = true;
             }
-            assertThat(thrown);
+            assertThat(thrown).isEqualTo(true);
+            assertThat(result).isNull();
         }
 
         @Test
@@ -72,19 +74,21 @@ import com.example.bot.spring.DatabaseEngine;
             } catch (Exception e) {
                 thrown = true;
             }
-            assertThat(!thrown);
-            assertThat(result.equals("def"));
+            assertThat(!thrown).isEqualTo(true);
+            assertThat(result).contains("def");
         }
 
         @Test
         public void testPartialNotFound() throws Exception {
             boolean thrown = false;
+            String result = null;
             try {
-                this.databaseEngine.search("Who is Prof Sung");
+                result = this.databaseEngine.search("Who is Prof Sung");
             } catch (Exception e) {
                 thrown = true;
             }
-            assertThat(thrown);
+            assertThat(thrown).isEqualTo(true);
+            assertThat(result).isNull();
         }
 
         @Test
@@ -96,7 +100,7 @@ import com.example.bot.spring.DatabaseEngine;
             } catch (Exception e) {
                 thrown = true;
             }
-            assertThat(!thrown); 
-            assertThat(result.contains("def"));
+            assertThat(!thrown).isEqualTo(true); 
+            assertThat(result).contains("def");
         }
     }
