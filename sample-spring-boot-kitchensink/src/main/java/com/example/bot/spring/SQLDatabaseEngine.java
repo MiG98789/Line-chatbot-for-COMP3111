@@ -24,11 +24,9 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             rs.next();
             String keyword = rs.getString(1);
             result = rs.getString(2) + " (" + (rs.getInt(3) + 1) + " hits)";
-            boolean found = false;
 
             // Update hit count
             if (text.toLowerCase().contains(keyword.toLowerCase())) {
-                found = true;
                 rs.close();
                 stmt.close();
 
@@ -41,16 +39,18 @@ public class SQLDatabaseEngine extends DatabaseEngine {
                 if (rs.getString(1) != "UPDATE 1") {
                     throw new Exception("NOT UPDATED");
                 }
-            }
 
             rs.close();
             stmt.close();
             connection.close();
 
-            if(!found) {
-                return text;
-            }
             return result;
+            } else {
+                rs.close();
+                stmt.close();
+                connection.close();
+                throw new Exception("INPUT NOT FOUND");
+            }
         } catch (Exception e) {
             log.info("Exception occured: {}", e.toString());
         }
