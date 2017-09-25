@@ -45,6 +45,10 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             stmt.close();
             connection.close();
 
+            if (result == null) {
+                return text;
+            }
+
             return result;
         } catch (Exception e) {
             log.info("Exception occured: {}", e.toString());
