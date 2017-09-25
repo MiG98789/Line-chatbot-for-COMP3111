@@ -23,7 +23,7 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             ResultSet rs = stmt.executeQuery();
             rs.next();
             String keyword = rs.getString(1);
-            result = rs.getString(2) + " (" + rs.getInt(3) + " hits)";
+            result = rs.getString(2) + " (" + (rs.getInt(3) + 1) + " hits)";
 
             // Update hit count
             if (text.toLowerCase().contains(keyword.toLowerCase())) {
