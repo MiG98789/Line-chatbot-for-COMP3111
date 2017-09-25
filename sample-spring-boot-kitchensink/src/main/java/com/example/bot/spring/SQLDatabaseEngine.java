@@ -24,9 +24,11 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             rs.next();
             String keyword = rs.getString(1);
             result = rs.getString(2) + " (" + (rs.getInt(3) + 1) + " hits)";
+            boolean found = false;
 
             // Update hit count
             if (text.toLowerCase().contains(keyword.toLowerCase())) {
+                found = true;
                 rs.close();
                 stmt.close();
 
@@ -45,10 +47,9 @@ public class SQLDatabaseEngine extends DatabaseEngine {
             stmt.close();
             connection.close();
 
-            if (result == null) {
+            if(!found) {
                 return text;
             }
-
             return result;
         } catch (Exception e) {
             log.info("Exception occured: {}", e.toString());
